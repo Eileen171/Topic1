@@ -1,0 +1,522 @@
+@import "./node_modules/bootstrap/scss/functions";
+@import "./stylesheet/helper/variables";
+@import "./stylesheet/helper/variables-dark";
+@import "./node_modules/bootstrap/scss/bootstrap.scss";
+@import url("https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One:ital@0;1&family=Audiowide&family=Bungee+Inline&family=Bungee+Shade&family=Modak&family=Montserrat+Subrayada:wght@400;700&family=Poiret+One&family=Protest+Guerrilla&family=Rubik+Doodle+Shadow&family=Rubik+Moonrocks&family=Ultra&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
+@import "./stylesheet/layout/layout";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+// 當螢幕寬度為 768 px或以上時
+// 所有 <h2> 元素的字體大小皆為 24px
+// 所有 <p> 元素的字體大小皆為 20px
+@media screen and (min-width: 768px) {
+  h2 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+}
+
+body {
+  // 重複徑向漸層
+  background: repeating-radial-gradient(
+    closest-side at 25px 35px, // 指定漸層結束的形狀位置
+    orange 30%, // 漸層從中心開始30%橘色
+    gold 40%
+  );
+  background-size: 60px 60px;
+}
+
+html {
+  font-size: 10px;
+  scroll-behavior: smooth; //將平滑捲動套用到 HTML 文件中的所有可捲動元素
+}
+a {
+  text-decoration: none;
+  outline: none;
+  color: darken($color: #fff, $amount: 80);
+}
+
+li {
+  list-style: none;
+}
+
+@keyframes rightMove {
+  50% {
+    transform: translateX(10px); //向右側移動10px
+  }
+}
+
+@keyframes downMove {
+  50% {
+    transform: translatey(10px); //向下側移動10px
+  }
+}
+
+@keyframes textMove {
+  25% {
+    transform: translatex(30px); //textMove
+    color: #f9c007;
+  }
+  50% {
+    transform: skewX(15deg); // 沿水平軸右傾斜15度
+    color: #f9c007;
+  }
+}
+
+.offcanvas-menu {
+  > label {
+    top: 10px;
+    left: 15px;
+    position: fixed;
+    width: 280px;
+    height: 200px;
+    cursor: pointer; // 使滑鼠變更樣式，讓使用者知道可以點擊
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    z-index: 9999; // 使其圖層絕對在最上方
+  }
+  label {
+    span,
+    span::before,
+    span::after {
+      transition:  transform 0.3s;
+      color: white;
+    }
+    span span::before,
+    span::after {
+      content: "";
+      position: absolute;
+      top: 40%;
+      height: 30px;
+      width: 150px;
+      background: rgba(255, 255, 2255, 0.01);
+    }
+    
+  }
+}
+
+nav {
+  position: fixed;
+  height: 100%;
+  width: 270px;
+  left: -350px;
+  overflow: hidden;
+  background: #0c588c;
+  transition: 0.3s ease;
+  padding-top: 230px;
+  box-shadow: 0 0 13px 15px #0c588c;
+  opacity: 95%;
+  z-index: 2;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      height: 70px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      font-family: "Montserrat Subrayada", sans-serif;
+      background: white;
+      -webkit-background-clip: text; // 文字效果
+      -webkit-text-fill-color: transparent; // 文字效果
+
+      .space {
+        width: 100px;
+        height: 70px;
+      }
+    }
+    label {
+      width: 30px;
+      height: 30px;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s ease;
+      span {
+        font-size: 3rem;
+        top: 1px;
+        font-family: "Comfortaa", sans-serif;
+        font-weight: bold;
+      }
+    }
+  }
+  > ul {
+    margin-top: 5px;
+    counter-reset: nav-link-count;
+
+    li {
+      cursor: pointer;
+      padding: 10px 0;
+      transform: translateX(-30px);
+      opacity: 0;
+      transition: 0.4s ease;
+      // 增加清單項目的計數器
+      counter-increment: nav-link-count;
+      // a為定錨元素
+      a {
+        font-size: 2rem;
+        line-height: 1.5;
+        font-weight: 400;
+        color: white;
+        display: block;
+      }
+
+      a:hover {
+        color: #fff;
+        animation: rightMove 0.5s;
+      }
+    }
+  }
+}
+
+input[type="checkbox"] {
+  display: none;
+
+  &:checked {
+    ~ label {
+      opacity: 0;
+      pointer-events: none;
+    }
+    ~ nav {
+      left: 0;
+    }
+
+    ~ nav label span {
+      background: transparent;
+    }
+    ~ nav label span:before {
+      transform: rotate(-45deg);
+    }
+    ~ nav label span:after {
+      transform: rotate(45deg);
+    }
+    ~ nav label span:before,
+    ~ nav label span:after {
+      transition-delay: 0.2s;
+    }
+
+    ~ nav ul li {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    ~ nav ul li:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+    ~ nav ul li:nth-child(2) {
+      transition-delay: 0.2s;
+    }
+    ~ nav ul li:nth-child(3) {
+      transition-delay: 0.3s;
+    }
+    ~ nav ul li:nth-child(4) {
+      transition-delay: 0.4s;
+    }
+    ~ nav ul li:nth-child(5) {
+      transition-delay: 0.5s;
+    }
+    ~ nav ul li:nth-child(6) {
+      transition-delay: 0.6s;
+    }
+    ~ nav ul li:nth-child(7) {
+      transition-delay: 0.7s;
+    }
+  }
+}
+
+.header {
+  width: 100%;
+  height: 17dvh;
+  position: relative;
+
+  .logo {
+    float: left;
+    position: fixed;
+    top: -10%;
+    left: 0;
+    z-index: 9998;
+    display: flex;
+  }
+  .fixedCurtainGroup {
+    height: 20dvh;
+    left: 20%;
+    position: fixed;
+    display: flex;
+    z-index: 2;
+
+    img {
+      width: 435px;
+      height: 120px;
+    }
+
+    .curtain {
+      display: block;
+    }
+
+    .curtain:hover {
+      animation: downMove 0.5s;
+    }
+
+    .curtain1 {
+      position: relative;
+      left: -23px;
+    }
+    .curtain2 {
+      position: relative;
+      left: -51px;
+    }
+    .curtain3 {
+      position: relative;
+      left: -90px;
+    }
+  }
+}
+.logoPhoto {
+  display: block;
+  background-image: url(./photo/logo.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-decoration: none;
+  border-radius: 50%;
+}
+
+.placeholder {
+  width: 22dvw;
+  height: 46dvh;
+  position: fixed;
+  top: -15%;
+  left: -1%;
+  z-index: -1;
+  border-radius: 50%;
+  color: #fff;
+  opacity: 1;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 82vh;
+  font-size: 4rem;
+  z-index: 0;
+  color: white;
+  padding-left: 20%;
+
+  // &:nth-child(odd) {
+  //   background: lighten($color: rgba(255, 255, 2255, 0.05), $amount: 2);
+  // }
+  // &:nth-child(even) {
+  //   background: lighten($color: rgba(255, 255, 2255, 0.05), $amount: 4);
+  // }
+
+  .sec2Area {
+    width: 100%;
+    height: 83vh;
+    position: relative;
+
+    &::before {
+      content: "";
+      width: 80%;
+      height: 60vh;
+      position: absolute;
+      background-color: #0c588c;
+      box-shadow: 0 0 13px 14px #0c588c;
+
+      opacity: 90%;
+      border: none;
+      border-radius: 15px;
+      top: 27%;
+      left: 10%;
+    }
+  }
+  .sec3Area {
+    width: 100%;
+    height: 83vh;
+    position: relative;
+    display: flex;
+
+    .weekMenu {
+      position: absolute;
+      width: 50%;
+      height: 60vh;
+      top: 27%;
+      left: 10%;
+      padding-left: 5%;
+      padding-top: 2%;
+      display: block;
+
+      li {
+        padding: 3px 0;
+      }
+      li:hover {
+        animation: textMove 1.5s;
+      }
+    }
+
+    .foodPhoto {
+      position: absolute;
+      height: 60vh;
+      width: 50dvh;
+      top: 27%;
+      left: 66%;
+    }
+
+    &::before {
+      content: "";
+      width: 50%;
+      height: 60vh;
+      position: absolute;
+      background-color: #0c588c;
+      box-shadow: 0 0 13px 14px #0c588c;
+      opacity: 90%;
+      border: none;
+      border-radius: 15px;
+      top: 27%;
+      left: 10%;
+    }
+
+    img {
+      width: 50dvh;
+      height: 60dvh;
+    }
+
+    
+    .carousel-caption {
+      top: -0.75rem;
+      color: #f9c007;
+      left: -10rem;
+    }
+  }
+
+  .sec4Area {
+    width: 100%;
+    height: 83vh;
+    position: relative;
+    display: flex;
+    padding-top: 13%;
+    padding-left: 10%;
+
+    &::before {
+      content: "";
+      width: 80%;
+      height: 60vh;
+      position: absolute;
+      background-color: #0c588c;
+      box-shadow: 0 0 13px 14px #0c588c;
+      opacity: 90%;
+      border: none;
+      border-radius: 15px;
+    }
+
+    .map {
+      position: absolute;
+      top: 37%;
+      left: 15%;
+    }
+
+    .info1 {
+      position: absolute;
+      width: 3%;
+      height: 47%;
+      opacity: 95%;
+      top: 39%;
+      left: 55%;
+      z-index: 1;
+      i {
+        margin-bottom: 15px;
+      }
+    }
+    .info2 {
+      position: absolute;
+      width: 24%;
+      height: 47%;
+      opacity: 95%;
+      top: 39%;
+      left: 55%;
+      border-radius: 8px;
+      box-shadow: 0 0 13px 14px #0c588c;
+      z-index: 0;
+      img {
+        width: 210px;
+        height: 70px;
+        left: 20%;
+      }
+    }
+  }
+
+  .sec5Area {
+    width: 100%;
+    height: 118vh;
+
+    &::before {
+      content: "";
+      width: 80%;
+      height: 75vh;
+      position: absolute;
+      background-color: #0c588c;
+      box-shadow: 0 0 13px 14px #0c588c;
+      opacity: 90%;
+      border: none;
+      border-radius: 15px;
+      top: 33%;
+      left: 10%;
+    }
+
+    .btn {
+      width: 8dvw;
+      height: 5dvh;
+      font-size: 12px;
+      line-height: 4dvh;
+    }
+
+    a:hover,
+    a:active {
+      background-color: #f9c007;
+      border-color: #f9c007;
+    }
+
+    .card-group {
+      position: absolute;
+      top: 39%;
+      left: 12%;
+      width: 76%;
+      height: 35dvh;
+      text-align: center;
+      display: flex;
+
+      &:hover {
+        z-index: 1;
+      }
+    }
+
+    .card-group2 {
+      position: absolute;
+      top: 58%;
+      left: 15%;
+      width: 70%;
+      height: 40dvh;
+      text-align: center;
+      display: flex;
+    }
+
+    .card-group:hover,
+    .card-group2:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.9);
+    }
+  }
+}
